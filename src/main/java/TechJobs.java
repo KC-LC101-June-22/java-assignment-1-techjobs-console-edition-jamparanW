@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -43,7 +40,7 @@ public class TechJobs {
                 } else {
 
                     ArrayList<String> results = JobData.findAll(columnChoice);
-
+                    results.sort(Comparator.naturalOrder());
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
 
                     // Print list of skills, employers, etc
@@ -62,7 +59,8 @@ public class TechJobs {
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
-                    printJobs(JobData.findByValue(searchTerm));
+                    ArrayList<HashMap<String, String>> searchResults = JobData.findByValue(searchTerm);
+                    printJobs(searchResults);
                 } else {
                     printJobs(JobData.findByColumnAndValue(searchField, searchTerm));
                 }
@@ -119,7 +117,12 @@ public class TechJobs {
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
-
-        System.out.println("printJobs is not implemented yet");
+        if (someJobs.isEmpty()) {
+            System.out.print("No Results");
+        } else {
+            for (HashMap job : someJobs) {
+                System.out.print("\n*****\n" + "position type: " + job.get("position type") + "\n" + "name: " + job.get("name") + "\n" + "employer: " + job.get("employer") + "\n" + "location: " + job.get("location") + "\n" + "core competency: " + job.get("core competency") + "\n*****\n");
+            }
+        }
     }
 }
